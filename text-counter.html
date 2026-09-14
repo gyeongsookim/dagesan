@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>글자수 세기 & 바이트 분석기 - 자소서·이력서 실시간 계산 | 다계산</title>
+  <meta name="description" content="공백 포함/제외 글자수, 취업포털 기준 EUC-KR(2byte) 및 UTF-8(3byte) 바이트수, 단어수, 예상 읽기 시간을 실시간으로 분석합니다. 공백 제거 및 원클릭 복사 기능 제공.">
+  <meta name="keywords" content="글자수 세기, 자소서 글자수, 바이트 계산기, EUC-KR 바이트, 공백제외 글자수, 사람인 글자수, 잡코리아 바이트">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="글자수 세기 & 바이트 분석기 - 자소서 완벽 대비">
+  <meta property="og:description" content="자기소개서 작성 필수 도구! 공백 포함/제외 글자수와 취업포털별 Byte를 1초 만에 분석하세요.">
+  <meta property="og:locale" content="ko_KR">
+
+  <!-- Tailwind CSS & Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "취업포털마다 바이트(Byte) 수가 왜 다르게 나오나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "한글 인코딩 규격에 따라 다릅니다. 사람인이나 대기업 채용 사이트는 주로 EUC-KR(한글 1글자당 2Byte)을 기준으로 삼고, 현대 웹 및 글로벌 표준 시스템은 UTF-8(한글 1글자당 3Byte)을 채택하기 때문입니다. 다계산은 두 기준을 모두 동시에 제공합니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "자기소개서 작성 시 공백 포함과 제외 중 어느 것을 기준으로 맞춰야 하나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "채용 사이트에 '공백 포함' 또는 '공백 제외' 명시가 없는 일반적인 기업의 경우 '공백 포함'을 기본 기준으로 작성하는 것이 안전합니다."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold shadow-md shadow-blue-500/20">
+          <i data-lucide="calculator" class="w-5 h-5"></i>
+        </div>
+        <span class="text-xl font-extrabold text-slate-900 tracking-tight">다계산</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+        <a href="index.html" class="hover:text-blue-600">전체 도구</a>
+        <a href="salary-calculator.html" class="hover:text-blue-600">연봉 실수령액</a>
+        <a href="hourly-wage-calculator.html" class="hover:text-blue-600">주휴수당·시급</a>
+        <a href="severance-calculator.html" class="hover:text-blue-600">퇴직금</a>
+        <a href="unemployment-calculator.html" class="hover:text-blue-600">실업급여</a>
+        <a href="real-estate-fee.html" class="hover:text-blue-600">부동산 복비</a>
+        <a href="text-counter.html" class="text-blue-600 font-bold">글자수 세기</a>
+      </nav>
+
+      <div class="flex items-center md:hidden">
+        <button id="mobileMenuBtn" aria-label="메뉴 열기" class="p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 모바일 메뉴 -->
+    <div id="mobileMenu" class="hidden md:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-4 space-y-2">
+      <a href="index.html" class="block px-3 py-2 rounded-lg text-base font-medium hover:bg-slate-100">전체 도구 홈</a>
+      <a href="salary-calculator.html" class="block px-3 py-2 rounded-lg text-base font-medium hover:bg-slate-100">연봉 실수령액 계산기</a>
+      <a href="hourly-wage-calculator.html" class="block px-3 py-2 rounded-lg text-base font-medium hover:bg-slate-100">주휴수당 & 알바 시급 계산기</a>
+      <a href="severance-calculator.html" class="block px-3 py-2 rounded-lg text-base font-medium hover:bg-slate-100">퇴직금 모의 계산기</a>
+      <a href="unemployment-calculator.html" class="block px-3 py-2 rounded-lg text-base font-medium hover:bg-slate-100">실업급여 모의 계산기</a>
+      <a href="real-estate-fee.html" class="block px-3 py-2 rounded-lg text-base font-medium hover:bg-slate-100">부동산 중개보수(복비) 계산기</a>
+      <a href="text-counter.html" class="block px-3 py-2 rounded-lg text-base font-bold text-blue-600 bg-blue-50">글자수 세기 & 바이트 분석</a>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4">
+      <a href="index.html" class="hover:text-blue-600">홈</a>
+      <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+      <span class="text-slate-800 font-medium">글자수 세기 & 바이트 분석</span>
+    </nav>
+
+    <div class="mb-6">
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
+        글자수 세기 & 바이트 분석기
+      </h1>
+      <p class="text-sm sm:text-base text-slate-600">
+        자기소개서, 이력서, 과제, 블로그 작성 시 공백 포함/제외 글자수와 EUC-KR 및 UTF-8 바이트를 실시간으로 측정합니다.
+      </p>
+    </div>
+
+    <!-- 상단 광고 -->
+    <div class="adsense-placeholder adsense-leaderboard">
+      <div class="flex items-center justify-center gap-2 text-slate-400">
+        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+        <span class="text-xs sm:text-sm font-medium">상단 배너 광고 영역 (구글 애드센스)</span>
+      </div>
+    </div>
+
+    <!-- 상단 빠른 지표 요약 바 -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 my-6">
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm text-center">
+        <span class="text-xs text-slate-500 block mb-1">공백 포함 글자수</span>
+        <span class="text-2xl sm:text-3xl font-black text-blue-600 result-highlight" id="withSpacesTop">0</span>
+        <span class="text-xs text-slate-400"> 자</span>
+      </div>
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm text-center">
+        <span class="text-xs text-slate-500 block mb-1">공백 제외 글자수</span>
+        <span class="text-2xl sm:text-3xl font-black text-indigo-600 result-highlight" id="withoutSpacesTop">0</span>
+        <span class="text-xs text-slate-400"> 자</span>
+      </div>
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm text-center">
+        <span class="text-xs text-slate-500 block mb-1">EUC-KR (채용포털)</span>
+        <span class="text-2xl sm:text-3xl font-black text-emerald-600 result-highlight" id="bytesEucKrTop">0</span>
+        <span class="text-xs text-slate-400"> Byte</span>
+      </div>
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm text-center">
+        <span class="text-xs text-slate-500 block mb-1">예상 읽기 시간</span>
+        <span class="text-2xl sm:text-3xl font-black text-amber-600 result-highlight" id="readingTimeTop">0</span>
+        <span class="text-xs text-slate-400"> 분</span>
+      </div>
+    </div>
+
+    <!-- 메인 텍스트 입력창 -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm mb-6">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs font-bold text-slate-700 uppercase">텍스트를 입력하거나 붙여넣으세요</span>
+        <div class="flex gap-2">
+          <button type="button" onclick="removeSpaces()" class="px-3 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition flex items-center gap-1">
+            <i data-lucide="scissors" class="w-3.5 h-3.5"></i>
+            공백 모두 제거
+          </button>
+          <button type="button" onclick="copyText()" class="px-3 py-1.5 text-xs font-semibold bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition flex items-center gap-1">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            본문 복사
+          </button>
+          <button type="button" onclick="clearText()" class="px-3 py-1.5 text-xs font-semibold bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-lg transition flex items-center gap-1">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            비우기
+          </button>
+        </div>
+      </div>
+
+      <textarea 
+        id="textInput" 
+        rows="12" 
+        placeholder="이곳에 내용을 자유롭게 입력하세요. 글자수와 용량이 실시간으로 자동 집계됩니다..."
+        class="w-full p-4 bg-slate-50 rounded-2xl border border-slate-300 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-900 text-sm sm:text-base leading-relaxed resize-y transition"
+      ></textarea>
+
+      <!-- 하단 보조 세부 지표 -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 mt-4 border-t border-slate-100 text-xs text-slate-600">
+        <div>단어 수: <strong id="wordsDisplay" class="text-slate-900 font-bold">0</strong>개</div>
+        <div>총 줄(라인) 수: <strong id="linesDisplay" class="text-slate-900 font-bold">0</strong>줄</div>
+        <div>UTF-8 용량: <strong id="bytesUtf8Display" class="text-slate-900 font-bold">0</strong> Byte</div>
+        <div>공백 문자 수: <strong id="spacesOnlyDisplay" class="text-slate-900 font-bold">0</strong>자</div>
+      </div>
+    </div>
+
+    <!-- 골든 광고 -->
+    <div class="adsense-placeholder adsense-leaderboard my-8">
+      <div class="flex items-center justify-center gap-2 text-slate-400">
+        <i data-lucide="award" class="w-5 h-5 text-teal-500"></i>
+        <span class="text-xs sm:text-sm font-medium">취업 자소서 첨삭 및 인적성 검사 배너 광고 (구글 애드센스)</span>
+      </div>
+    </div>
+
+    <!-- 가이드 & FAQ -->
+    <article class="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-sm prose prose-slate max-w-none my-10">
+      <h2 class="text-xl font-extrabold text-slate-900 mb-4 flex items-center gap-2">
+        <i data-lucide="info" class="w-5 h-5 text-teal-600"></i>
+        취업 포털별 바이트(Byte) 및 글자수 계산 공식 안내
+      </h2>
+
+      <p class="text-slate-600 text-sm leading-relaxed mb-6">
+        자기소개서 작성 시 각 기업의 채용 시스템이나 취업 플랫폼마다 글자수 제한 규격이 다릅니다. 어떤 곳은 '공백 포함 1,000자'를 요구하고, 어떤 곳은 '2,000 Byte 이내'를 요구합니다.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm mb-6">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="font-bold text-slate-900 block mb-1">EUC-KR (국내 대다수 채용 시스템)</span>
+          <p class="text-slate-600">한글: 2 Byte / 영문·숫자·공백: 1 Byte<br>※ 1,000 Byte 제한 시 순수 한글 약 500자 작성 가능</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <span class="font-bold text-slate-900 block mb-1">UTF-8 (글로벌 기업 및 모던 웹)</span>
+          <p class="text-slate-600">한글: 3 Byte / 영문·숫자·공백: 1 Byte<br>※ 클라우드 기반 신규 채용 솔루션에서 채택</p>
+        </div>
+      </div>
+
+      <!-- FAQ Accordion -->
+      <h3 class="text-base font-bold text-slate-800 mt-8 mb-4">자주 묻는 질문 (FAQ)</h3>
+      <div class="space-y-3">
+        <div class="faq-item border border-slate-200 rounded-2xl p-4 bg-slate-50/50">
+          <button type="button" class="w-full flex items-center justify-between text-left font-bold text-slate-800 text-sm">
+            <span>Q. 자소서 분량은 제한 글자수의 몇 %를 채우는 것이 적당한가요?</span>
+            <i data-lucide="chevron-down" class="faq-icon w-4 h-4 text-slate-500 transition-transform"></i>
+          </button>
+          <div class="hidden mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed pt-2 border-t border-slate-200">
+            인사담당자 설문조사에 따르면 제한 분량의 85% ~ 95% 수준을 채우는 것이 가장 성의 있어 보이며 읽기에도 부담이 없습니다. 너무 꽉 채워 글자가 잘리거나 70% 미만으로 작성하여 성의가 부족해 보이지 않도록 조절하는 것이 핵심입니다.
+          </div>
+        </div>
+
+        <div class="faq-item border border-slate-200 rounded-2xl p-4 bg-slate-50/50">
+          <button type="button" class="w-full flex items-center justify-between text-left font-bold text-slate-800 text-sm">
+            <span>Q. 줄바꿈(엔터)도 글자수나 바이트에 포함되나요?</span>
+            <i data-lucide="chevron-down" class="faq-icon w-4 h-4 text-slate-500 transition-transform"></i>
+          </button>
+          <div class="hidden mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed pt-2 border-t border-slate-200">
+            윈도우 환경에서는 줄바꿈 시 CR(\r)과 LF(\n) 2개 문자로 처리되어 2Byte가 소모될 수 있습니다. 대부분의 채용 사이트는 줄바꿈을 1~2Byte로 계산하므로 문단 분리 시 불필요한 연속 엔터는 줄이는 것이 좋습니다.
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-xs text-slate-500">
+      <p>© 2026 다계산. All rights reserved. 브라우저 기반 실시간 텍스트 분석.</p>
+      <div class="flex justify-center gap-4 mt-3">
+        <a href="privacy.html" class="hover:text-blue-600">개인정보처리방침</a>
+        <a href="terms.html" class="hover:text-blue-600">이용약관</a>
+        <a href="contact.html" class="hover:text-blue-600">문의하기</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/calculations.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    lucide.createIcons();
+
+    const textInput = document.getElementById('textInput');
+    const withSpacesTop = document.getElementById('withSpacesTop');
+    const withoutSpacesTop = document.getElementById('withoutSpacesTop');
+    const bytesEucKrTop = document.getElementById('bytesEucKrTop');
+    const readingTimeTop = document.getElementById('readingTimeTop');
+
+    const wordsDisplay = document.getElementById('wordsDisplay');
+    const linesDisplay = document.getElementById('linesDisplay');
+    const bytesUtf8Display = document.getElementById('bytesUtf8Display');
+    const spacesOnlyDisplay = document.getElementById('spacesOnlyDisplay');
+
+    function updateTextMetrics() {
+      const text = textInput.value;
+      const res = analyzeText(text);
+
+      withSpacesTop.textContent = formatNumber(res.withSpaces);
+      withoutSpacesTop.textContent = formatNumber(res.withoutSpaces);
+      bytesEucKrTop.textContent = formatNumber(res.bytesEucKr);
+      readingTimeTop.textContent = res.readingMinutes.toString();
+
+      wordsDisplay.textContent = formatNumber(res.words);
+      linesDisplay.textContent = text ? formatNumber(res.lines) : '0';
+      bytesUtf8Display.textContent = formatNumber(res.bytesUtf8);
+      spacesOnlyDisplay.textContent = formatNumber(res.withSpaces - res.withoutSpaces);
+    }
+
+    function removeSpaces() {
+      if (!textInput.value) return;
+      textInput.value = textInput.value.replace(/\s/g, '');
+      updateTextMetrics();
+      showToast('공백이 모두 제거되었습니다.');
+    }
+
+    function copyText() {
+      if (!textInput.value) {
+        showToast('복사할 텍스트가 없습니다.');
+        return;
+      }
+      copyToClipboard(textInput.value, '본문 텍스트가 복사되었습니다.');
+    }
+
+    function clearText() {
+      textInput.value = '';
+      updateTextMetrics();
+      showToast('내용이 모두 지워졌습니다.');
+    }
+
+    textInput.addEventListener('input', updateTextMetrics);
+    updateTextMetrics();
+  </script>
+</body>
+</html>
