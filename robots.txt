@@ -1,4 +1,4 @@
-﻿User-agent: *
+User-agent: *
 Allow: /
 
-Sitemap: https://allcalc.kr/sitemap.xml
+Sitemap: https://gyeongsookim.github.io/dagesan/sitemap.xml
