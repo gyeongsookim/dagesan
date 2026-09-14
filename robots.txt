@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gyeongsookim.github.io/dagesan/sitemap.xml
+Sitemap: https://dagesan.pages.dev/sitemap.xml
